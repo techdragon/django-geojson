@@ -7,7 +7,7 @@ from django.core.exceptions import SuspiciousOperation
 from django.core.exceptions import ImproperlyConfigured
 
 try:
-    from django.contrib.gis.geos.geometry import Polygon
+    from django.contrib.gis.geos import Polygon
     from django.contrib.gis.db.models import PointField
 except (ImportError, ImproperlyConfigured):
     from .fields import PointField
