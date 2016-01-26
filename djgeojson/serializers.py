@@ -303,8 +303,9 @@ class Serializer(PythonSerializer):
         opts = queryset.model._meta
         local_fields = opts.local_fields
         many_to_many_fields = opts.many_to_many
-        reversed_fields = [obj.field for obj in opts.get_all_related_objects()]
-        reversed_fields += [obj.field for obj in opts.get_all_related_many_to_many_objects()]
+        reversed_fields = [obj.field for obj in opts.related_objects]
+        #reversed_fields = [obj.field for obj in opts.get_all_related_objects()]
+        #reversed_fields += [obj.field for obj in opts.get_all_related_many_to_many_objects()]
 
         # populate each queryset obj as a feature
         for obj in queryset:
