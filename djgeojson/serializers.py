@@ -15,7 +15,7 @@ import logging
 from six import string_types, iteritems
 
 from django.db.models.base import Model
-from django.db.models.query import QuerySet, ValuesQuerySet
+from django.db.models.query import QuerySet
 from django.forms.models import model_to_dict
 from django.core.serializers.python import (_get_model,
                                             Serializer as PythonSerializer,
@@ -303,8 +303,9 @@ class Serializer(PythonSerializer):
         opts = queryset.model._meta
         local_fields = opts.local_fields
         many_to_many_fields = opts.many_to_many
-        reversed_fields = [obj.field for obj in opts.get_all_related_objects()]
-        reversed_fields += [obj.field for obj in opts.get_all_related_many_to_many_objects()]
+        reversed_fields = [obj.field for obj in opts.related_objects]
+        #reversed_fields = [obj.field for obj in opts.get_all_related_objects()]
+        #reversed_fields += [obj.field for obj in opts.get_all_related_many_to_many_objects()]
 
         # populate each queryset obj as a feature
         for obj in queryset:
@@ -363,10 +364,7 @@ class Serializer(PythonSerializer):
 
         self.start_serialization()
 
-        if isinstance(queryset, ValuesQuerySet):
-            self.serialize_values_queryset(queryset)
-
-        elif isinstance(queryset, list):
+        if isinstance(queryset, list):
             self.serialize_object_list(queryset)
 
         elif isinstance(queryset, QuerySet):
